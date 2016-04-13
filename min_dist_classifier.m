@@ -1,4 +1,4 @@
-function output = min_dist_classifier(data, input)
+function classifier = min_dist_classifier(data)
     %Calc centroid for each feature and class = 0
     %Calc centroid for each feature and class = 1
     %Calc sum of distance to centroid for each feature of input, for each class
@@ -22,17 +22,5 @@ function output = min_dist_classifier(data, input)
        end
        classifier(i, 1) = classifier(i, 1) / count_neg;
        classifier(i, 2) = classifier(i, 2) / count_pos;
-    end
-    
-    dist_neg = 0;
-    dist_pos = 0;
-    for i = 1:aux(1)
-        dist_neg = dist_neg + (classifier(i, 1) - input(i))^2;
-        dist_pos = dist_pos + (classifier(i, 2) - input(i))^2;
-    end
-    if dist_neg < dist_pos
-        output = 0;
-    else
-        output = 1;
     end
 end
