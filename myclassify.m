@@ -13,7 +13,8 @@ function myclassify()
     %Number of samples
     data.num_data = size(data.X, 2);
     
-    %pca_analysis(data);
-    kruskal_analysis(data);
-    %perft(data)
+    perft(data, 'Unprocessed Features');
+    perft(scalestd(data), 'Feature Normalization');
+    pca_analysis(data, 0, 'PCA Feature Reduction');
+    %kruskal_analysis(data);
 end

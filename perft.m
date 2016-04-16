@@ -1,4 +1,5 @@
-function perft(data)
+function perft(data, string)
+    fprintf('Performance Test: %s\n', string)
     right = 0;
     full_data = cat(1, data.X, data.y);
     
