@@ -34,6 +34,6 @@ function perft(data, string)
            right = right + 1; 
         end
     end
-    perft_res = sprintf('Classifier Performance: %.2f %%', (right / size(test_data, 2)) * 100);
+    perft_res = sprintf('Classifier Performance: %.2f %%\n', (right / size(test_data, 2)) * 100);
     disp(perft_res);
 end

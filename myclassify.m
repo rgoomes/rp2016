@@ -15,6 +15,6 @@ function myclassify()
     
     perft(data, 'Unprocessed Features');
     perft(scalestd(data), 'Feature Normalization');
-    pca_analysis(data, 0, 'PCA Feature Reduction');
+    feature_reduction(data, 0);
     %kruskal_analysis(data);
 end
