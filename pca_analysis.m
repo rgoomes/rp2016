@@ -5,10 +5,8 @@ function pca_analysis(data, verbose, string)
     model = pca(data.X);
     
     aux = round(model.W * model.W');
-    if isequal(aux, eye(23))
-        if verbose == 1
-            fprintf('Ortogonal\n');
-        end
+    if verbose == 1 && isequal(aux, eye(size(data.X, 1)))
+        fprintf('Ortogonal\n');
     end
     
     if verbose == 1
@@ -19,18 +17,18 @@ function pca_analysis(data, verbose, string)
             fprintf('Contribution: %f\n', contrib);
         end
     end
-    
+
+    model2 = pca(data.X, kaiser_test(data, model));
+    out = linproj(data.X, model2);
+    data.X = out;
+    perft(data, string);
+end
+
+function feat_count = kaiser_test(data, model)
     feat_count = 0;
     for i = 1:size(data.X, 1) 
        if model.eigval(i) >= 1
            feat_count = feat_count + 1;
        end
     end
-   
-   model2 = pca(data.X, feat_count); 
-   out = linproj(data.X, model2);
-   data.X = out;
-   perft(data, string);
-   
 end
-
