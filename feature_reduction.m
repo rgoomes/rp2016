@@ -26,6 +26,7 @@ function lda_analysis(data, verbose, string)
 
     model2 = lda(data, kaiser_test(data, eigenvalues));
     new_data = linproj(data, model2);
+    
     perft(new_data, string);
 end
 
