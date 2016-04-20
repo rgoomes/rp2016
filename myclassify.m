@@ -1,4 +1,12 @@
 function myclassify()
+%MYCLASSIFY   Main Classifier Function
+%
+%   This function reads the data file and calls all the necessary
+%   functions to select and reduce features. A performance test is also run
+%   after the data is processed
+%
+%   args:   None
+%   output: None
     clc, clear all, close all
     
     %One column = one feature

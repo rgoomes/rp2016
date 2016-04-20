@@ -1,4 +1,13 @@
 function data = feature_selection(data)
+%FEATURE_SELECTION   Feature Selection using Kruskal-Wallis test
+%
+%   This function uses Kruskal-Wallis test to obtain the 5 features with
+%   the best Chi-Sqr test and return them
+%
+%   args:   data:   structure containing a set of features (data.X) and the
+%                   classification for each example (data.y)
+%   output: data:   structure containing the new set of features (data.X) and the
+%                   classification for each example (data.y)
     data = kruskal_analysis(data, 'Kruskal Wallis');
 end
 
