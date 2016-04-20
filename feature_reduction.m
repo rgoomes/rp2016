@@ -1,9 +1,9 @@
-function feature_reduction(data, verbose)
-    pca_analysis(data, verbose, 'PCA Feature Reduction');
-    lda_analysis(data, verbose, 'LDA Feature Reduction');
+function data = feature_reduction(data, verbose)
+    data = pca_analysis(data, verbose, 'PCA Feature Reduction');
+    data = lda_analysis(data, verbose, 'LDA Feature Reduction');
 end
 
-function pca_analysis(data, verbose, string)
+function data = pca_analysis(data, verbose, string)
     %Normalize features
     data = scalestd(data);
     
@@ -15,19 +15,16 @@ function pca_analysis(data, verbose, string)
     model2 = pca(data.X, kaiser_test(data, eigenvalues));
     out = linproj(data.X, model2);
     data.X = out;
-    perft(data, string);
 end
 
-function lda_analysis(data, verbose, string)
+function data = lda_analysis(data, verbose, string)
     model1 = lda(data);
     
     eigenvalues = eig(model1.eigval);
     show_info(data, verbose, model1, eigenvalues);
 
     model2 = lda(data, kaiser_test(data, eigenvalues));
-    new_data = linproj(data, model2);
-    
-    perft(new_data, string);
+    data = linproj(data, model2);
 end
 
 function feat_count = kaiser_test(data, eigenvalues)

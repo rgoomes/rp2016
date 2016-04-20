@@ -15,6 +15,8 @@ function myclassify()
     
     perft(data, 'Unprocessed Features');
     perft(scalestd(data), 'Feature Normalization');
-    feature_reduction(data, 0);
-    feature_selection(data);
+
+    data = feature_selection(data);
+    data = feature_reduction(data, 0);
+    perft(data, 'Complete Analysis');
 end
