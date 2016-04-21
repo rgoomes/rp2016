@@ -28,12 +28,7 @@ end
 
 function data = lda_analysis(data, verbose, string)
     model1 = lda(data);
-    
-    eigenvalues = eig(model1.eigval);
-    show_info(data, verbose, model1, eigenvalues);
-
-    model2 = lda(data, kaiser_test(data, eigenvalues));
-    data = linproj(data, model2);
+    data = linproj(data, model1);
 end
 
 function feat_count = kaiser_test(data, eigenvalues)
