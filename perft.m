@@ -1,4 +1,4 @@
-function perft(data, string)
+function perft(data, string, verbose)
 %PERFT   Performance Test
 %
 %   This function runs a performance test using the input data and a
@@ -49,8 +49,11 @@ function perft(data, string)
 
     [C, d] = confusionmat(test_data_class, outs);
     C = C';
-    plotconfusion(test_data_class, outs);
+    if verbose == 1
+        plotconfusion(test_data_class, outs);
+    end
 
-    perft_res = sprintf('Classifier Performance: %.2f %%\n', (right / size(test_data, 2)) * 100);
-    disp(perft_res);
+    fprintf('Classifier Accuracy:\t%.2f %%\n', (right / size(test_data, 2)) * 100);
+    fprintf('Classifier Sensitivity:\t%.2f %%\n', (C(2,2) / (C(2,2) + C(1,2))) * 100);
+    fprintf('Classifier Specificity:\t%.2f %%\n\n', (C(1,1) / (C(2,1) + C(1,1))) * 100);
 end

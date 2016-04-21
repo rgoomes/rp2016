@@ -9,7 +9,7 @@ function data = feature_reduction(data, verbose)
 %   output: data:   structure containing the new set of features (data.X) and the
 %                   classification for each example (data.y)
     data = pca_analysis(data, verbose, 'PCA Feature Reduction');
-    data = lda_analysis(data, verbose, 'LDA Feature Reduction');
+    %data = lda_analysis(data, verbose, 'LDA Feature Reduction');
 end
 
 function data = pca_analysis(data, verbose, string)

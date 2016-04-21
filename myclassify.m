@@ -21,10 +21,10 @@ function myclassify()
     %Number of samples
     data.num_data = size(data.X, 2);
     
-    perft(data, 'Unprocessed Features');
-    perft(scalestd(data), 'Feature Normalization');
+    perft(data, 'Unprocessed Features', 0);
+    perft(scalestd(data), 'Feature Normalization', 0);
 
     data = feature_selection(data);
     data = feature_reduction(data, 0);
-    perft(data, 'Complete Analysis');
+    perft(data, 'Complete Analysis', 0);
 end
