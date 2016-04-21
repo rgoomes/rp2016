@@ -10,16 +10,17 @@ function perft(data, string)
 %   output: None
     fprintf('Performance Test: %s\n', string)
     right = 0;
-    full_data = cat(1, data.X, data.y);
+    outs = [];
+
+    ind0 = find(data.y == 0);
+    ind1 = find(data.y == 1);
+    [train_1, ~, test_1] = dividerand(size(ind1, 2), 0.7, 0, 0.3);
+    [train_0, ~, test_0] = dividerand(size(ind0, 2), 0.7, 0, 0.3);
     
-    %Randomly divide the data into train and test datasets
-    [ind_train, ~, ind_test] = dividerand(size(full_data, 2), 0.7, 0.0, 0.3);
-    train = full_data(:, ind_train);
-    test = full_data(:, ind_test);
-    train_data.X = train(1:end - 1, :);
-    train_data.y = train(end, :);
-    test_data = test(1:end - 1, :);
-    test_data_class = test(end, :);
+    train_data.X = horzcat(data.X(:, ind0(train_0)), data.X(:, ind1(train_1)));
+    train_data.y = horzcat(data.y(:, ind0(train_0)), data.y(:, ind1(train_1)));
+    test_data = horzcat(data.X(:, ind0(test_0)), data.X(:, ind1(test_1)));
+    test_data_class = horzcat(data.y(:, ind0(test_0)), data.y(:, ind1(test_1)));
     
     classifier = min_dist_classifier(train_data);
     %Classify and calculate performance
@@ -42,7 +43,14 @@ function perft(data, string)
         if output == test_data_class(i)
            right = right + 1; 
         end
+
+        outs = [outs output];
     end
+
+    [C, d] = confusionmat(test_data_class, outs);
+    C = C';
+    plotconfusion(test_data_class, outs);
+
     perft_res = sprintf('Classifier Performance: %.2f %%\n', (right / size(test_data, 2)) * 100);
     disp(perft_res);
 end

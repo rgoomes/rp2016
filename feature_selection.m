@@ -8,7 +8,26 @@ function data = feature_selection(data)
 %                   classification for each example (data.y)
 %   output: data:   structure containing the new set of features (data.X) and the
 %                   classification for each example (data.y)
+    correlation_analysis(data, 0);
     data = kruskal_analysis(data, 'Kruskal Wallis', 5);
+end
+
+function correlation_analysis(data, verbose)
+    if verbose == 0
+        return
+    end
+
+    C = corrcoef(data.X');
+    disp('Highly correlated features:');
+
+    for i=1:data.dim
+        for j=i+1:data.dim
+            if(i ~= j && C(i,j) > 0.8)
+                str = strcat(num2str(i), '-', num2str(j), {' '}, num2str(C(i,j)));
+                fprintf('%s\n', str{1});
+            end
+        end
+    end
 end
 
 function data = kruskal_analysis(data, string, k)
@@ -27,4 +46,5 @@ function data = kruskal_analysis(data, string, k)
     end
     
     data.X = new_data;
+    data.dim = k;
 end
