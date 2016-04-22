@@ -4,9 +4,10 @@ function perft(data, string, verbose)
 %   This function runs a performance test using the input data and a
 %   minimum-distance classifier. The data is divided randomly
 %
-%   args:   data:   structure containing a set of features (data.X) and the
-%                   classification for each example (data.y)
-%           string: description that is printed along with the results
+%   args:   data:    structure containing a set of features (data.X) and the
+%                    classification for each example (data.y)
+%           string:  description that is printed along with the results
+%           verbose: display extra information. Valid values are true and false
 %   output: None
     fprintf('Performance Test: %s\n', string)
     right = 0;

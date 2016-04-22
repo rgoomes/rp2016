@@ -4,10 +4,11 @@ function data = feature_reduction(data, verbose)
 %   This function uses PCA and LDA to reduce the number of features in the
 %   input structure and returns the output of the reduction
 %
-%   args:   data:   structure containing a set of features (data.X) and the
-%                   classification for each example (data.y)
-%   output: data:   structure containing the new set of features (data.X) and the
-%                   classification for each example (data.y)
+%   args:   data:    structure containing a set of features (data.X) and the
+%                    classification for each example (data.y)
+%           verbose: display extra information. Valid values are true and false
+%   output: data:    structure containing the new set of features (data.X) and the
+%                    classification for each example (data.y)
     data = pca_analysis(data, verbose, 'PCA Feature Reduction');
     %data = lda_analysis(data, verbose, 'LDA Feature Reduction');
 end
