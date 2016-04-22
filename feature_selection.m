@@ -22,7 +22,7 @@ function correlation_analysis(data, verbose)
 
     for i=1:data.dim
         for j=i+1:data.dim
-            if(i ~= j && C(i,j) > 0.8)
+            if(i ~= j && C(i,j) > 0.9)
                 str = strcat(num2str(i), '-', num2str(j), {' '}, num2str(C(i,j)));
                 fprintf('%s\n', str{1});
             end
