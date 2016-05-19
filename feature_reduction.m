@@ -42,19 +42,12 @@ function feat_count = kaiser_test(data, eigenvalues)
 end
 
 function show_info(data, verbose, model, eigenvalues)
-    if verbose == 0
-        return
-    end
-
-    aux = round(model.W * model.W');
-    if isequal(aux, eye(size(data.X, 1)))
-        fprintf('Ortogonal\n');
-    end
-    
-    plot(eigenvalues,'o-');
-    disp(eigenvalues);
-    for i = 1:size(data.X, 1)
-        contrib = (eigenvalues(i) / sum(eigenvalues)) * 100;
-        fprintf('Contribution: %f\n', contrib);
+    if verbose == 1
+        plot(eigenvalues,'o-');
+        disp(eigenvalues);
+        for i = 1:size(data.X, 1)
+            contrib = (eigenvalues(i) / sum(eigenvalues)) * 100;
+            fprintf('Contribution: %f\n', contrib);
+        end
     end
 end
