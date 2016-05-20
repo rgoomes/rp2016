@@ -9,7 +9,7 @@ function data = feature_selection(data, verbose)
 %   output: data:   structure containing the new set of features (data.X) and the
 %                   classification for each example (data.y)
     data = correlation_analysis(data, verbose);
-    data = kruskal_analysis(data, 5, true, verbose);
+    data = kruskal_analysis(data, 10, true, verbose);
 end
 
 function data = correlation_analysis(data, verbose)

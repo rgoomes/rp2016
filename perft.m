@@ -10,8 +10,6 @@ function perft(data, string, verbose)
 %           verbose: display extra information. Valid values are true and false
 %   output: None
     fprintf('Performance Test: %s\n', string)
-    right = 0;
-    outs = [];
 
     ind0 = find(data.y == 0);
     ind1 = find(data.y == 1);
@@ -22,39 +20,17 @@ function perft(data, string, verbose)
     train_data.y = horzcat(data.y(:, ind0(train_0)), data.y(:, ind1(train_1)));
     test_data = horzcat(data.X(:, ind0(test_0)), data.X(:, ind1(test_1)));
     test_data_class = horzcat(data.y(:, ind0(test_0)), data.y(:, ind1(test_1)));
-    
-    classifier = min_dist_classifier(train_data);
-    %Classify and calculate performance
-    for i = 1:size(test_data, 2)
-        input = test_data(:, i);
-        dist_neg = 0;
-        dist_pos = 0;
-        
-        for k = 1:size(test_data, 1)
-            dist_neg = dist_neg + (classifier(k, 1) - input(k))^2;
-            dist_pos = dist_pos + (classifier(k, 2) - input(k))^2;
-        end
-        dist_neg = sqrt(dist_neg);
-        dist_pos = sqrt(dist_pos);
-        if dist_neg < dist_pos
-            output = 0;
-        else
-            output = 1;
-        end
-        if output == test_data_class(i)
-           right = right + 1; 
-        end
 
-        outs = [outs output];
-    end
+    outs = min_dist_classifier(train_data, test_data);
+    outs = knnclass(test_data, knnrule(train_data, 2));
 
     [C, d] = confusionmat(test_data_class, outs);
     C = C';
-    if verbose == 1
+    if verbose == true
         plotconfusion(test_data_class, outs);
     end
 
-    fprintf('Classifier Accuracy:\t%.2f %%\n', (right / size(test_data, 2)) * 100);
+    fprintf('Classifier Accuracy:\t%.2f %%\n', (1 - cerror(outs, test_data_class)) * 100);
     fprintf('Classifier Sensitivity:\t%.2f %%\n', (C(2,2) / (C(2,2) + C(1,2))) * 100);
     fprintf('Classifier Specificity:\t%.2f %%\n\n', (C(1,1) / (C(2,1) + C(1,1))) * 100);
 end
