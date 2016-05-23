@@ -11,6 +11,7 @@ function perft(data, verbose)
 %   output: None
     ind0 = find(data.y == 0);
     ind1 = find(data.y == 1);
+
     [train_1, ~, test_1] = dividerand(size(ind1, 2), 0.7, 0, 0.3);
     [train_0, ~, test_0] = dividerand(size(ind0, 2), 0.7, 0, 0.3);
     
@@ -22,16 +23,16 @@ function perft(data, verbose)
     outs = min_dist_classifier(train_data, test_data);
     show_stats(test_data_class, outs, verbose, 'minimum distance classifier');
 
-    outs = knnclass(test_data, knnrule(train_data, 2));
+    outs = knnclass(test_data, knnrule(train_data, 50));
     show_stats(test_data_class, outs, verbose, 'knn classifier');
 
     %{
     options = struct();
-    options.ker = 'linear';
+    options.ker = 'rbf';
     options.arg = 1;
     options.eps = 0.001;
-    options.tol = 0.1;
-    options.C   = 0.1;
+    options.tol = 0.001;
+    options.C   = inf;
 
     model = smo(train_data, options); % O(n³) time complexity, very slow..
     % model = svmquadprog(train_data, options); % O(n²) memory complexity (21k x 21k), needs 3Gb of RAM

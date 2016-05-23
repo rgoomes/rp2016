@@ -33,12 +33,7 @@ function data = lda_analysis(data, verbose, string)
 end
 
 function feat_count = kaiser_test(data, eigenvalues)
-    feat_count = 0;
-    for i = 1:size(data.X, 1) 
-       if eigenvalues(i) >= 1
-           feat_count = feat_count + 1;
-       end
-    end
+    feat_count = sum(eigenvalues >= 1.0);
 end
 
 function show_info(data, verbose, model, eigenvalues)
