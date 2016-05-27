@@ -12,8 +12,8 @@ function perft(data, verbose)
     ind0 = find(data.y == 0);
     ind1 = find(data.y == 1);
 
-    [train_1, ~, test_1] = dividerand(size(ind1, 2), 0.7, 0, 0.3);
-    [train_0, ~, test_0] = dividerand(size(ind0, 2), 0.7, 0, 0.3);
+    [train_0, ~, test_0] = dividerand(length(ind0), 0.7, 0, 0.3);
+    [train_1, ~, test_1] = dividerand(length(ind1), 0.7, 0, 0.3);
     
     train_data.X = horzcat(data.X(:, ind0(train_0)), data.X(:, ind1(train_1)));
     train_data.y = horzcat(data.y(:, ind0(train_0)), data.y(:, ind1(train_1)));
