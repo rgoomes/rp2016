@@ -9,14 +9,12 @@ function data = feature_reduction(data, verbose)
 %           verbose: display extra information. Valid values are true and false
 %   output: data:    structure containing the new set of features (data.X) and the
 %                    classification for each example (data.y)
+
     data = pca_analysis(data, verbose);
-    %data = lda_analysis(data, verbose);
+    %data = lda_analysis(data);
 end
 
 function data = pca_analysis(data, verbose)
-    %Normalize features
-    data = scalestd(data);
-    
     model1 = pca(data.X);
     
     eigenvalues = model1.eigval;
@@ -25,11 +23,18 @@ function data = pca_analysis(data, verbose)
     model2 = pca(data.X, kaiser_test(eigenvalues));
     out = linproj(data.X, model2);
     data.X = out;
+
+    % also update dim
+    data.dim = size(out, 1);
 end
 
-function data = lda_analysis(data, verbose)
-    model1 = lda(data);
-    data = linproj(data, model1);
+function data = lda_analysis(data)
+    model = lda(data, 2);
+    data = linproj(data, model);
+
+    % set dim and num_data
+    data.dim = size(data.X, 1);
+    data.num_data = size(data.X, 2);
 end
 
 function feat_count = kaiser_test(eigenvalues)

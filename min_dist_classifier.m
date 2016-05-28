@@ -19,10 +19,10 @@ function outs = min_dist_classifier(train_data, test_data)
        count_neg = 0;
        count_pos = 0;
        for k = 1:aux(2)
-          if class(k) == 0
+          if class(k) == 1
               classifier(i, 1) = classifier(i, 1) + feats(i, k);
               count_neg = count_neg + 1;
-          elseif class(k) == 1
+          elseif class(k) == 2
               classifier(i, 2) = classifier(i, 2) + feats(i, k);
               count_pos = count_pos + 1;
           end
@@ -44,9 +44,9 @@ function outs = min_dist_classifier(train_data, test_data)
         dist_neg = sqrt(dist_neg);
         dist_pos = sqrt(dist_pos);
         if dist_neg < dist_pos
-            output = 0;
-        else
             output = 1;
+        else
+            output = 2;
         end
 
         outs = [outs output];
