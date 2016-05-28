@@ -1,4 +1,5 @@
-function myclassify()
+function results = myclassify(do_equalize, do_reduce, reduce_ratio_txt, do_normalize, ...
+    do_feature_selection, kruskalK, max_correlation, do_pca, do_lda, split_percentage, classifier_type, verbose)
 %MYCLASSIFY   Main Classifier Function
 %
 %   This function reads the data file and calls all the necessary
@@ -8,7 +9,7 @@ function myclassify()
 %   args:   None
 %   output: None
 
-    clc, clear all, close all
+    clc
     
     %One column = one feature
     feats = csvread('data.csv', 2);
@@ -23,13 +24,25 @@ function myclassify()
     %Number of samples
     data.num_data = size(data.X, 2);
 
-    data = equalize(data);
-    data = reduce(data, 0.5);
-    data = scalestd(data);
+    if do_equalize == true
+        data = equalize(data);
+    end
 
-    data = feature_selection(data, false);
-    data = feature_reduction(data, false);
-    perft(data, false);
+    if do_reduce == true
+        data = reduce(data, reduce_ratio_txt);
+    end
+
+    if do_normalize == true
+        data = scalestd(data);
+    end
+
+    if do_feature_selection == true
+        data = feature_selection(data, kruskalK, max_correlation, verbose);
+    end
+
+    data = feature_reduction(data, do_pca, do_lda, verbose);
+
+    results = perft(data, split_percentage, classifier_type, verbose);
 end
 
 function data = reduce(data, reduce_factor)

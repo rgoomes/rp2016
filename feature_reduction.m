@@ -1,4 +1,4 @@
-function data = feature_reduction(data, verbose)
+function data = feature_reduction(data, do_pca, do_lda, verbose)
 %FEATURE_REDUCTION   Feature Reduction using PCA and LDA
 %
 %   This function uses PCA and LDA to reduce the number of features in the
@@ -10,8 +10,13 @@ function data = feature_reduction(data, verbose)
 %   output: data:    structure containing the new set of features (data.X) and the
 %                    classification for each example (data.y)
 
-    data = pca_analysis(data, verbose);
-    %data = lda_analysis(data);
+    if do_pca == true
+        data = pca_analysis(data, verbose);
+    end
+
+    if do_lda == true
+        data = lda_analysis(data);
+    end
 end
 
 function data = pca_analysis(data, verbose)
@@ -43,7 +48,7 @@ end
 
 function show_info(data, verbose, eigenvalues)
     if verbose == 1
-        plot(eigenvalues,'o-');
+        figure; plot(eigenvalues,'o-');
         disp(eigenvalues);
         for i = 1:size(data.X, 1)
             contrib = (eigenvalues(i) / sum(eigenvalues)) * 100;

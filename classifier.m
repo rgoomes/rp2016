@@ -96,7 +96,6 @@ function checkbox1_Callback(hObject, eventdata, handles)
 % Hint: get(hObject,'Value') returns toggle state of checkbox1
 value = get(handles.checkbox1, 'Value');
 
-
 % --- Executes on button press in reduce_chk.
 function reduce_chk_Callback(hObject, eventdata, handles)
 % hObject    handle to reduce_chk (see GCBO)
@@ -106,8 +105,6 @@ function reduce_chk_Callback(hObject, eventdata, handles)
 % Hint: get(hObject,'Value') returns toggle state of reduce_chk
 global reduce;
 reduce = get(handles.reduce_chk, 'Value');
-disp(reduce);
-
 
 function ratio_txt_Callback(hObject, eventdata, handles)
 % hObject    handle to ratio_txt (see GCBO)
@@ -130,7 +127,6 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-
 % --- Executes on button press in norm_chk.
 function norm_chk_Callback(hObject, eventdata, handles)
 % hObject    handle to norm_chk (see GCBO)
@@ -140,7 +136,6 @@ function norm_chk_Callback(hObject, eventdata, handles)
 % Hint: get(hObject,'Value') returns toggle state of norm_chk
 global normalize;
 normalize = get(handles.norm_chk, 'Value');
-disp(normalize);
 
 % --- Executes on button press in eq_chk.
 function eq_chk_Callback(hObject, eventdata, handles)
@@ -151,8 +146,6 @@ function eq_chk_Callback(hObject, eventdata, handles)
 % Hint: get(hObject,'Value') returns toggle state of eq_chk
 global equalize;
 equalize = get(handles.eq_chk, 'Value');
-disp(equalize);
-
 
 % --- Executes on button press in feat_select_chk.
 function feat_select_chk_Callback(hObject, eventdata, handles)
@@ -163,9 +156,6 @@ function feat_select_chk_Callback(hObject, eventdata, handles)
 % Hint: get(hObject,'Value') returns toggle state of feat_select_chk
 global feat_select;
 feat_select = get(handles.feat_select_chk, 'Value');
-disp(feat_select);
-
-
 
 function kruskal_k_txt_Callback(hObject, eventdata, handles)
 % hObject    handle to kruskal_k_txt (see GCBO)
@@ -244,7 +234,6 @@ function pca_chk_Callback(hObject, eventdata, handles)
 % Hint: get(hObject,'Value') returns toggle state of pca_chk
 global pca_;
 pca_ = get(handles.pca_chk, 'Value');
-disp(pca_);
 
 % --- Executes on button press in lda_chk.
 function lda_chk_Callback(hObject, eventdata, handles)
@@ -255,8 +244,6 @@ function lda_chk_Callback(hObject, eventdata, handles)
 % Hint: get(hObject,'Value') returns toggle state of lda_chk
 global lda_;
 lda_ = get(handles.lda_chk, 'Value');
-disp(lda_);
-
 
 % --- Executes on selection change in classifier_pop.
 function classifier_pop_Callback(hObject, eventdata, handles)
@@ -279,7 +266,6 @@ elseif ind == 4
 elseif ind == 5
     classifier_type = 'svm';
 end
-disp(classifier_type);
 
 % --- Executes during object creation, after setting all properties.
 function classifier_pop_CreateFcn(hObject, eventdata, handles)
@@ -336,25 +322,31 @@ global feat_select;
 global pca_;
 global lda_;
 global classifier_type;
+
+kruskal_k = inf;
+max_corr  = inf;
+reduce_ratio_txt = inf;
+
 if feat_select == 1
    kruskal_k = str2num(get(handles.kruskal_k_txt,'String'));
-   disp(kruskal_k);
    max_corr = str2num(get(handles.max_corr_txt,'String'));
-   disp(max_corr);
 end
+
 if reduce == 1
     reduce_ratio_txt = str2num(get(handles.ratio_txt,'String'));
-    disp(reduce_ratio_txt);
 end
+
 if strcmp(classifier_type, 'knn')
     knn_k = str2num(get(handles.knn_k_txt,'String'));
-    disp(knn_k);
 end
+
 split_ratio = str2num(get(handles.split_ratio_txt,'String'));
-%TODO: Call classifier with these params
 %Assign results to corresponding result labels
 
+results = myclassify(equalize, reduce, reduce_ratio_txt, normalize, ...
+    feat_select, kruskal_k, max_corr, pca_, lda_, split_ratio, classifier_type, true);
 
+disp(results);
 
 function knn_k_txt_Callback(hObject, eventdata, handles)
 % hObject    handle to knn_k_txt (see GCBO)
