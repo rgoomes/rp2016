@@ -6,7 +6,10 @@ function data = feature_reduction(data, do_pca, do_lda, verbose)
 %
 %   args:   data:    structure containing a set of features (data.X) and the
 %                    classification for each example (data.y)
-%           verbose: display extra information. Valid values are true and false
+%           do_pca:  apply pca (valid values are true or false)
+%           do_lda:  apply lda (valid values are true or false)
+%           verbose: display extra information (valid values are true or false)
+%
 %   output: data:    structure containing the new set of features (data.X) and the
 %                    classification for each example (data.y)
 

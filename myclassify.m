@@ -8,8 +8,22 @@ function results = myclassify(do_equalize, do_reduce, reduce_ratio_txt, ...
 %   functions to select and reduce features. A performance test is also run
 %   after the data is processed
 %
-%   args:   None
-%   output: None
+%   args:   do_equalize:          equalize dataset (valid values are true or false)
+%           do_reduce:            reduce dataset (valid values are true or false)
+%           reduce_racion_txt:    reduce factor (valid values are ]0.0, 1.0])
+%           do_normalize:         normalize dataset (valid values are true or false)
+%           do_feature_selection: enable feature selection (valid values are true of false)
+%           kruskalK:             number of selected features by the Kruskal-Wallis test
+%           max_correlation:      max correlation factor (valid values are [-1.0, 1.0])
+%           do_pca:               apply pca (valid values are true or false)
+%           do_lda:               apply lda (valid values are true or false)
+%           split_percentage:     percentage of training data (valid values are ]0.0, 1.0[)
+%           classifier_type:      type of classifier (valid values are 'mdc','fld', 'knn', 'bayes', 'svm')
+%           knn_k:                k nearest neighbours
+%           verbose:              enable verbose (valid values are true or false)
+%
+%   output: results:              array that contains the accuracy, sensitivity and
+%                                 specificity in this order
 
     clc
     

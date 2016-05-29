@@ -4,10 +4,10 @@ function outs = min_dist_classifier(train_data, test_data)
 %   This function will train a minimum distance classifier using the data
 %   provided as input and return it
 %
-%   args:   data:   structure containing a set of features (data.X) and the
-%                   classification for each example (data.y)
-%   output: classifier: Matrix that can be used as a min-dist classifier.
-%                        Each column is the centroid of a different class 
+%   args:   data: structure containing a set of features (data.X) and the
+%                 classification for each example (data.y)
+%
+%   output: outs: predictions
 %   
     outs = [];
 

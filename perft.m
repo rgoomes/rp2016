@@ -4,11 +4,15 @@ function results = perft(data, split_percentage, classifier_type, knn_k, verbose
 %   This function runs a performance test using the input data and a
 %   minimum-distance classifier. The data is divided randomly
 %
-%   args:   data:    structure containing a set of features (data.X) and the
-%                    classification for each example (data.y)
-%           string:  description that is printed along with the results
-%           verbose: display extra information. Valid values are true and false
-%   output: None
+%   args:   data:             structure containing a set of features (data.X) and the
+%                             classification for each example (data.y)
+%           split_percentage: percentage of training data (valid values are ]0.0, 1.0[)
+%           classifier_type:  type of classifier (valid values are 'mdc','fld', 'knn', 'bayes', 'svm')
+%           knn_k:            k nearest neighbours
+%           verbose:          display extra information (valid values are true or false)
+%
+%   output: results:          array that contains the accuracy, sensitivity and
+%                             specificity in this order
 
     if verbose == true
         figure; ppatterns(data);

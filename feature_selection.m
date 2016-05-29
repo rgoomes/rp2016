@@ -4,10 +4,16 @@ function data = feature_selection(data, kruskalK, max_correlation, in_tune_mode,
 %   This function uses Kruskal-Wallis test to obtain the k features with
 %   the best Chi-Sqr test and return them
 %
-%   args:   data:   structure containing a set of features (data.X) and the
-%                   classification for each example (data.y)
-%   output: data:   structure containing the new set of features (data.X) and the
-%                   classification for each example (data.y)
+%   args:   data:            structure containing a set of features (data.X) and the
+%                            classification for each example (data.y)
+%           kruskalK:        number of selected features by the Kruskal-Wallis test
+%           max_correlation: max correlation factor (valid values are [-1.0, 1.0])
+%           in_tune_mode:    enable features tuning. If you dont't know what
+%                            this means, use false (valid values are true or false)
+%           verbose:         display extra information (valid values are true or false)
+%
+%   output: data:            structure containing the new set of features (data.X) and the
+%                            classification for each example (data.y)
 
     data = correlation_analysis(data, max_correlation, in_tune_mode, verbose);
 

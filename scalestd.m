@@ -6,6 +6,7 @@ function data = scalestd(data)
 %
 %   args:   data:   structure containing a set of features (data.X) and the
 %                   classification for each example (data.y)
+%
 %   output: data:   structure containing the new set of features (data.X) and the
 %                   classification for each example (data.y)   
     d = data.X;
