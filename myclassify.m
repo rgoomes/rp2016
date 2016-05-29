@@ -1,5 +1,7 @@
-function results = myclassify(do_equalize, do_reduce, reduce_ratio_txt, do_normalize, ...
-    do_feature_selection, kruskalK, max_correlation, do_pca, do_lda, split_percentage, classifier_type, verbose)
+function results = myclassify(do_equalize, do_reduce, reduce_ratio_txt, ...
+    do_normalize, do_feature_selection, kruskalK, max_correlation, ...
+    do_pca, do_lda, split_percentage, classifier_type, knn_k, verbose)
+
 %MYCLASSIFY   Main Classifier Function
 %
 %   This function reads the data file and calls all the necessary
@@ -42,7 +44,7 @@ function results = myclassify(do_equalize, do_reduce, reduce_ratio_txt, do_norma
 
     data = feature_reduction(data, do_pca, do_lda, verbose);
 
-    results = perft(data, split_percentage, classifier_type, verbose);
+    results = perft(data, split_percentage, classifier_type, knn_k, verbose);
 end
 
 function data = reduce(data, reduce_factor)

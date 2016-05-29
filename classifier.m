@@ -326,6 +326,7 @@ global classifier_type;
 kruskal_k = inf;
 max_corr  = inf;
 reduce_ratio_txt = inf;
+knn_k = 1;
 
 if feat_select == 1
    kruskal_k = str2num(get(handles.kruskal_k_txt,'String'));
@@ -344,7 +345,7 @@ split_ratio = str2num(get(handles.split_ratio_txt,'String'));
 %Assign results to corresponding result labels
 
 results = myclassify(equalize, reduce, reduce_ratio_txt, normalize, ...
-    feat_select, kruskal_k, max_corr, pca_, lda_, split_ratio, classifier_type, true);
+    feat_select, kruskal_k, max_corr, pca_, lda_, split_ratio, classifier_type, knn_k, false);
 
 disp(results);
 

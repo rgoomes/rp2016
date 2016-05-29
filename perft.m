@@ -1,4 +1,4 @@
-function results = perft(data, split_percentage, classifier_type, verbose)
+function results = perft(data, split_percentage, classifier_type, knn_k, verbose)
 %PERFT   Performance Test
 %
 %   This function runs a performance test using the input data and a
@@ -52,7 +52,7 @@ function results = perft(data, split_percentage, classifier_type, verbose)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     if strcmp(classifier_type, 'knn')
-        outs = knnclass(test_data.X, knnrule(train_data, 50));
+        outs = knnclass(test_data.X, knnrule(train_data, knn_k));
         results = show_stats(test_data.y, outs, verbose, true, 'knn classifier');
     end
 

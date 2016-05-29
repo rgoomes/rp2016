@@ -9,7 +9,7 @@ function data = feature_selection(data, kruskalK, max_correlation, verbose)
 %   output: data:   structure containing the new set of features (data.X) and the
 %                   classification for each example (data.y)
 
-    data = correlation_analysis(data, max_correlation, verbose);
+    data = correlation_analysis(data, max_correlation, true);
     data = kruskal_analysis(data, kruskalK, true, verbose);
 end
 
@@ -18,9 +18,9 @@ function data = correlation_analysis(data, max_correlation, verbose)
     C = corrcoef(data.X');
 
     % how much features have to be correlated to remove one of them. The
-    % correlation varies between -1 and 1. A value of 1.0 means higly correlated
-    MAX_CORRELATION = min(max_correlation, 1.0);
-    MAX_CORRELATION = max(MAX_CORRELATION, 0.5);
+    % correlation varies between -1 and 1. A value of 1.0 means highly correlated
+    MAX_CORRELATION = min(max_correlation,  1.0);
+    MAX_CORRELATION = max(MAX_CORRELATION, -1.0);
 
     % indx is an array with numbers that represents features. The array is
     % ordered by chi2 in decreasing order, for example if indx=[3,1,2]
