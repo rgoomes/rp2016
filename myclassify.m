@@ -38,13 +38,86 @@ function results = myclassify(do_equalize, do_reduce, reduce_ratio_txt, ...
         data = scalestd(data);
     end
 
+    %tune_features(data);
     if do_feature_selection == true
-        data = feature_selection(data, kruskalK, max_correlation, verbose);
+        data = feature_selection(data, kruskalK, max_correlation, false, verbose);
     end
 
     data = feature_reduction(data, do_pca, do_lda, verbose);
-
     results = perft(data, split_percentage, classifier_type, knn_k, verbose);
+end
+
+function r = getGlobalBS()
+    global best_score
+    r = best_score;
+end
+
+function setGlobalBS(val)
+    global best_score
+    best_score = val;
+end
+
+function r = getGlobalBF()
+    global best_features
+    r = best_features;
+end
+
+function setGlobalBF(val)
+    global best_features
+    best_features = val;
+end
+
+function r = getGlobalTOTAL()
+    global total
+    r = total;
+end
+
+function setGlobalTOTAL(val)
+    global total
+    total = val;
+end
+
+function dfs(feats, allfeats, pointer, inc, data)
+    if inc == true
+        setGlobalTOTAL(getGlobalTOTAL() + 1);
+        perftData = data;
+        perftData.X = perftData.X(feats, :);
+        perftData.dim = length(feats);
+        results = perft(perftData, 0.7, 'knn', '50', false);
+        b = sum(results);
+
+        if b > getGlobalBS()
+            setGlobalBS(b);
+            setGlobalBF(feats);
+            fprintf('Fitness: %.2f, Features: %s, Total = %d\n', b, mat2str(getGlobalBF()), getGlobalTOTAL());
+        end
+    end
+
+    if pointer == length(allfeats);
+        return
+    end
+
+    next = pointer+1;
+
+    dfs([feats allfeats(pointer)], allfeats, next, true, data);
+    dfs(feats, allfeats, next, false, data);
+end
+
+function data = tune_features(data)
+    setGlobalTOTAL(0);
+    setGlobalBS(0);
+    setGlobalBF([]);
+
+    allfeats = 1:data.dim;
+    to_remove = feature_selection(data, 0, 0.9, true, false);
+    allfeats(to_remove) = [];
+
+    dfs([], allfeats, 1, false, data);
+
+    data.X = data.X(getGlobalBF(), :);
+    data.dim = size(data.X, 1);
+
+    disp('Feature tuning ended');
 end
 
 function data = reduce(data, reduce_factor)

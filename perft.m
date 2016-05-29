@@ -38,7 +38,7 @@ function results = perft(data, split_percentage, classifier_type, knn_k, verbose
 
     if strcmp(classifier_type, 'mdc')
         outs = min_dist_classifier(train_data, test_data.X);
-        results = show_stats(test_data.y, outs, verbose, true, 'min dist classifier');
+        results = show_stats(test_data.y, outs, verbose, verbose, 'min dist classifier');
     end
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -46,14 +46,14 @@ function results = perft(data, split_percentage, classifier_type, knn_k, verbose
     if strcmp(classifier_type, 'fld')
         model = fld(train_data);
         outs = linclass(test_data.X, model);
-        results = show_stats(test_data.y, outs, verbose, true, 'lin classifier');
+        results = show_stats(test_data.y, outs, verbose, verbose, 'lin classifier');
     end
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     if strcmp(classifier_type, 'knn')
         outs = knnclass(test_data.X, knnrule(train_data, knn_k));
-        results = show_stats(test_data.y, outs, verbose, true, 'knn classifier');
+        results = show_stats(test_data.y, outs, verbose, verbose, 'knn classifier');
     end
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -76,7 +76,7 @@ function results = perft(data, split_percentage, classifier_type, knn_k, verbose
         model.Pclass{2} = mlcgmm(train1);
         model.Prior = [length(inx0) length(inx1)]/(length(inx0)+length(inx1));
         outs = bayescls(test_data.X, model);
-        results = show_stats(test_data.y, outs, verbose, true, 'bayes classifier');
+        results = show_stats(test_data.y, outs, verbose, verbose, 'bayes classifier');
     end
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -84,7 +84,7 @@ function results = perft(data, split_percentage, classifier_type, knn_k, verbose
     if strcmp(classifier_type, 'svm')
         opt = struct('ker', 'linear', 'C', 1.0e-2, 'eps', 1.0e-4);
         outs = svmclass(test_data.X, smo(train_data, opt));
-        results = show_stats(test_data.y, outs, false, true, 'svm classifier');
+        results = show_stats(test_data.y, outs, verbose, verbose, 'svm classifier');
     end
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

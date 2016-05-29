@@ -47,7 +47,7 @@ function feat_count = kaiser_test(eigenvalues)
 end
 
 function show_info(data, verbose, eigenvalues)
-    if verbose == 1
+    if verbose == true
         figure; plot(eigenvalues,'o-');
         disp(eigenvalues);
         for i = 1:size(data.X, 1)

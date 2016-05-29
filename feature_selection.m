@@ -1,4 +1,4 @@
-function data = feature_selection(data, kruskalK, max_correlation, verbose)
+function data = feature_selection(data, kruskalK, max_correlation, in_tune_mode, verbose)
 %FEATURE_SELECTION   Feature Selection using Kruskal-Wallis test
 %
 %   This function uses Kruskal-Wallis test to obtain the k features with
@@ -9,11 +9,16 @@ function data = feature_selection(data, kruskalK, max_correlation, verbose)
 %   output: data:   structure containing the new set of features (data.X) and the
 %                   classification for each example (data.y)
 
-    data = correlation_analysis(data, max_correlation, verbose);
+    data = correlation_analysis(data, max_correlation, in_tune_mode, verbose);
+
+    if in_tune_mode == true
+        return
+    end
+
     data = kruskal_analysis(data, kruskalK, true, verbose);
 end
 
-function data = correlation_analysis(data, max_correlation, verbose)
+function data = correlation_analysis(data, max_correlation, only_features, verbose)
     correlated_feats = [];
     C = corrcoef(data.X');
 
@@ -47,6 +52,11 @@ function data = correlation_analysis(data, max_correlation, verbose)
 
     % make sure to not remove the same features twice
     correlated_feats = unique(correlated_feats);
+
+    if only_features == true
+        data = correlated_feats;
+        return
+    end
 
     if verbose == true
         fprintf('Highly correlated features: %s of %d\n', mat2str(correlated_feats), data.dim);
