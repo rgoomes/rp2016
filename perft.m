@@ -82,22 +82,22 @@ function results = perft(data, split_percentage, classifier_type, knn_k, verbose
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     if strcmp(classifier_type, 'svm')
-        opt = struct('ker', 'linear', 'C', 1.0e-2, 'eps', 1.0e-9);
+        opt = struct('ker', 'linear', 'C', 1.0e-2, 'eps', 1.0e-4);
         outs = svmclass(test_data.X, smo(train_data, opt));
         results = show_stats(test_data.y, outs, false, true, 'svm classifier');
     end
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    %tune_parameters(data, train_data, test_data, verbose);
+    %tune_parameters(data, train_data, test_data, 'rbf', verbose);
 end
 
-function tune_parameters(data, train_data, test_data, verbose)
-    TuneC   = [1e-8, 1e-3, 0.01, 0.1];
-    TuneEPS = [1e-12, 1e-9, 1e-6];
+function tune_parameters(data, train_data, test_data, kernel, verbose)
+    TuneC   = [1e-6, 1e-5, 1e-4, 1e-3, 0.01, 0.1, 1, 10, 100, 1e6];
+    TuneEPS = [1e-6, 1e-5, 1e-4, 1e-3, 0.01, 0.1, 1, 10, 100, 1e6];
 
     best = 0.0;
-    opt = struct('ker', 'linear');
+    opt = struct('ker', kernel);
 
     for i=1:length(TuneC)
         for j=1:length(TuneEPS)

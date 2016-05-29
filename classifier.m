@@ -22,7 +22,7 @@ function varargout = classifier(varargin)
 
 % Edit the above text to modify the response to help classifier
 
-% Last Modified by GUIDE v2.5 28-May-2016 22:54:18
+% Last Modified by GUIDE v2.5 29-May-2016 11:18:30
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -67,6 +67,7 @@ global feat_select;
 global pca_;
 global lda_;
 global classifier_type;
+global verbose;
 reduce = 0;
 normalize = 0;
 equalize = 0;
@@ -74,6 +75,7 @@ feat_select = 0;
 pca_ = 0;
 lda_ = 0;
 classifier_type = 'mdc';
+verbose = 0;
 
 
 % --- Outputs from this function are returned to the command line.
@@ -322,32 +324,55 @@ global feat_select;
 global pca_;
 global lda_;
 global classifier_type;
+global verbose;
+
+set(handles.acc_txt, 'String', '');
+set(handles.sens_txt, 'String', '');
+set(handles.spec_txt, 'String', '');
 
 kruskal_k = inf;
 max_corr  = inf;
 reduce_ratio_txt = inf;
 knn_k = 1;
+err = 0;
 
 if feat_select == 1
    kruskal_k = str2num(get(handles.kruskal_k_txt,'String'));
    max_corr = str2num(get(handles.max_corr_txt,'String'));
+   if isempty(kruskal_k) == 1 || isempty(max_corr) == 1
+      err = 1;
+   end
 end
 
 if reduce == 1
     reduce_ratio_txt = str2num(get(handles.ratio_txt,'String'));
+    if isempty(reduce_ratio_txt) == 1
+       err = 1;
+    end
 end
 
 if strcmp(classifier_type, 'knn')
     knn_k = str2num(get(handles.knn_k_txt,'String'));
+    if isempty(knn_k) == 1
+       err = 1;
+    end
 end
 
 split_ratio = str2num(get(handles.split_ratio_txt,'String'));
-%Assign results to corresponding result labels
+if isempty(split_ratio) == 1
+   err = 1;
+end
 
-results = myclassify(equalize, reduce, reduce_ratio_txt, normalize, ...
-    feat_select, kruskal_k, max_corr, pca_, lda_, split_ratio, classifier_type, knn_k, false);
+if err == 0
+    results = myclassify(equalize, reduce, reduce_ratio_txt, normalize, ...
+        feat_select, kruskal_k, max_corr, pca_, lda_, split_ratio, classifier_type, knn_k, verbose);
 
-disp(results);
+    set(handles.acc_txt, 'String', sprintf('%s%%', num2str(results(1))));
+    set(handles.sens_txt, 'String', sprintf('%s%%', num2str(results(2))));
+    set(handles.spec_txt, 'String', sprintf('%s%%', num2str(results(3))));
+else
+    disp('Something is empty');
+end
 
 function knn_k_txt_Callback(hObject, eventdata, handles)
 % hObject    handle to knn_k_txt (see GCBO)
@@ -369,3 +394,14 @@ function knn_k_txt_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
+
+% --- Executes on button press in verbose_chk.
+function verbose_chk_Callback(hObject, eventdata, handles)
+% hObject    handle to verbose_chk (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of verbose_chk
+global verbose;
+verbose = get(handles.verbose_chk, 'Value');
